@@ -6,7 +6,8 @@ try:
 except:
     pass #readline not available
 
-morsePin=13
+DEBUG_MODE=True
+MORSE_PIN=13
 unitTime=0.1 #Time of a unit, in seconds
 #If the duration of a dot is taken to be one unit then that of a dash is three units. The space between the components of one character is one unit, between characters is three units and between words seven units.
 #dot = 1
@@ -17,13 +18,14 @@ unitTime=0.1 #Time of a unit, in seconds
 
 toMorse = dict({
 " ": "/",
-"A": ".-", "B": "-...", "C": "-.-.", "D": "-..", "E": ".",
-"F": "..-.", "G": "--.", "H": "....", "I": "..", "J": ".---",
-"K": "-.-", "L": ".-..", "M": "--", "N": "-.", "O": "---",
-"P": ".--.", "Q": "--.-", "R": ".-.", "S": "...", "T": "-",
-"U": "..-", "V": "...-", "W": ".--", "X": "-..-", "Y": "-.--", "Z": "--..",
-"1": ".----", "2": "..---", "3": "...--", "4": "....-", "5": "-....",
-"6": "--...", "7": "---..", "8": "----.", "9": "----.", "0": "-----"})
+"A": ".-",     "B": "-...",   "C": "-.-.",   "D": "-..",    "E": ".",
+"F": "..-.",   "G": "--.",    "H": "....",   "I": "..",     "J": ".---",
+"K": "-.-",    "L": ".-..",   "M": "--",     "N": "-.",     "O": "---",
+"P": ".--.",   "Q": "--.-",   "R": ".-.",    "S": "...",    "T": "-",
+"U": "..-",    "V": "...-",   "W": ".--",    "X": "-..-",   "Y": "-.--",
+"Z": "--..",
+"1": ".----",  "2": "..---",  "3": "...--",  "4": "....-",  "5": "-....",
+"6": "--...",  "7": "---..",  "8": "----.",  "9": "----.",  "0": "-----"})
 
 def textToMorse(text):
 	morse = ""
@@ -36,27 +38,28 @@ def textToMorse(text):
 			morse+= toMorse[character.upper()]
 
 	morse = morse[:-1]
-	print(morse)
+	if DEBUG_MODE:
+		print(morse)
 	return morse
 
 def sendDot():
-	aa.digitalWrite(morsePin, aa.HIGH)
+	aa.digitalWrite(MORSE_PIN, aa.HIGH)
 	time.sleep(unitTime)
-	aa.digitalWrite(morsePin, aa.LOW)
+	aa.digitalWrite(MORSE_PIN, aa.LOW)
 	time.sleep(unitTime)
 
 def sendDash():
-	aa.digitalWrite(morsePin, aa.HIGH)
+	aa.digitalWrite(MORSE_PIN, aa.HIGH)
 	time.sleep(3*unitTime)
-	aa.digitalWrite(morsePin, aa.LOW)
+	aa.digitalWrite(MORSE_PIN, aa.LOW)
 	time.sleep(unitTime)
 
 def sendWordSpace():
-	aa.digitalWrite(morsePin, aa.LOW)
+	aa.digitalWrite(MORSE_PIN, aa.LOW)
 	time.sleep(6*unitTime) # 7-1 * unitTime because 1 unit time after every . or -
 
 def sendLetterSpace():
-	aa.digitalWrite(morsePin, aa.LOW)
+	aa.digitalWrite(MORSE_PIN, aa.LOW)
 	time.sleep(2*unitTime) # 3-1 * unitTime  because 1 unit time after every . or -
 
 def sendMorse(morse):
@@ -78,8 +81,8 @@ connection = nanpy.SerialManager(device='/dev/serial0')
 aa = nanpy.ArduinoApi(connection=connection)
 at = nanpy.arduinotree.ArduinoTree(connection=connection)
 
-aa.pinMode(morsePin, aa.OUTPUT)
-aa.digitalWrite(morsePin, aa.LOW)
+aa.pinMode(MORSE_PIN, aa.OUTPUT)
+aa.digitalWrite(MORSE_PIN, aa.LOW)
 
 print("Type 'QUIT' to exit the program")
 print("Enter the text you want to send via morse code:")
@@ -89,3 +92,6 @@ while inp != "QUIT":
 	inp = input("> ")
 	if inp != "QUIT":
 		sendText(inp)
+
+aa.digitalWrite(MORSE_PIN, aa.LOW)
+aa.pinMode(MORSE_PIN, aa.INPUT)
