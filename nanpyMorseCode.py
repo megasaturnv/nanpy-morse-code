@@ -47,7 +47,7 @@ def textToMorse(text):
 
 def sendDot():
 	if DEBUG_MODE:
-		print('.', end='')
+		print('.', end='', flush=True)
 	aa.digitalWrite(MORSE_PIN, aa.HIGH)
 	time.sleep(UNIT_TIME)
 	aa.digitalWrite(MORSE_PIN, aa.LOW)
@@ -55,7 +55,7 @@ def sendDot():
 
 def sendDash():
 	if DEBUG_MODE:
-		print('-', end='')
+		print('-', end='', flush=True)
 	aa.digitalWrite(MORSE_PIN, aa.HIGH)
 	time.sleep(3 * UNIT_TIME)
 	aa.digitalWrite(MORSE_PIN, aa.LOW)
@@ -63,13 +63,13 @@ def sendDash():
 
 def sendLetterSpace():
 	if DEBUG_MODE:
-		print(' ', end='')
+		print(' ', end='', flush=True)
 	aa.digitalWrite(MORSE_PIN, aa.LOW)
 	time.sleep(2 * UNIT_TIME) # 3-1 * UNIT_TIME because 1 unit time after every . or -
 
 def sendWordSpace():
 	if DEBUG_MODE:
-		print('/', end='')
+		print('/', end='', flush=True)
 	aa.digitalWrite(MORSE_PIN, aa.LOW)
 	time.sleep(6 * UNIT_TIME) # 7-1 * UNIT_TIME because 1 unit time after every . or -
 
@@ -104,6 +104,8 @@ if	FAKE_AN_ARDUINO_MODE:
 
 inp = ""
 while inp != "QUIT":
+	if DEBUG_MODE:
+		print('')
 	inp = input("> ")
 	if inp != "QUIT":
 		sendMorse(textToMorse(inp))
