@@ -7,7 +7,7 @@ except:
     pass #readline not available
 
 DEBUG_MODE=True
-FAKE_AN_ARDUINO_MODE=FALSE
+FAKE_AN_ARDUINO_MODE=False
 MORSE_PIN=13
 ARDUINO_SERIAL_DEVICE='/dev/serial0'
 UNIT_TIME=0.1 #Time of a unit, in seconds
