@@ -33,13 +33,19 @@ try:
 except:
     pass #readline not available
 
-def digitalWrite(pin, state):
+def digitalWrite(pin, stateArg):
 	if INVERT_OUTPUT:
-		if DEBUG_MODE:
-			print('pinstate: ' + str(state))
-		aa.digitalWrite(MORSE_PIN, state)
+		if stateArg == aa.LOW:
+			state = aa.HIGH
+		else:
+			state = aa.LOW
 	else:
-		aa.digitalWrite(MORSE_PIN, state)
+		state = stateArg
+
+	if DEBUG_MODE:
+		print('pinstate: ' + str(state))
+
+	aa.digitalWrite(MORSE_PIN, state)
 
 def textToMorse(text):
 	morse = ""
