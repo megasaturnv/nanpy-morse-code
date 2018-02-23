@@ -102,7 +102,7 @@ if not FAKE_AN_ARDUINO_MODE:
 	aa = nanpy.ArduinoApi(connection=connection)
 	at = nanpy.arduinotree.ArduinoTree(connection=connection)
 
-	#aa.pinMode(MORSE_PIN, aa.OUTPUT)
+	aa.pinMode(MORSE_PIN, aa.OUTPUT)
 	if not INVERT_OUTPUT:
 		aa.digitalWrite(MORSE_PIN, aa.LOW)
 	else:
